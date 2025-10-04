@@ -12,7 +12,7 @@ export default function JobDescriptionForm() {
   const [bullets, setBullets] = useState<string[]>([]);
   const [loading, setLoading] = useState(false);
   const [error, setError] = useState<string | undefined>();
-  const [isLoading, setIsLoading] = useState(false);
+  const [isLoading] = useState(false);
 
 
   // Helper function
