@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 SAFE_MIN = 200
 MAX_RESUME_LENGTH = 1000
 MAX_JD_LENGTH = 500
-REQUEST_TIMEOUT = 30  # seconds
+REQUEST_TIMEOUT = 60  # seconds
 
 
 # Cached client - reuse across requests
