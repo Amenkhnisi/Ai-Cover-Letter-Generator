@@ -1,0 +1,9 @@
+fastapi
+uvicorn[standard]
+python-multipart
+pydantic
+openai>=1.30.0
+python-dotenv
+pytest
+google-genai
+slowapi

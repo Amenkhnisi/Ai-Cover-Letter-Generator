@@ -1,0 +1,33 @@
+# Node modules and build artifacts
+node_modules
+dist
+
+# Logs
+*.log
+npm-debug.log*
+
+# OS-specific files
+.DS_Store
+Thumbs.db
+
+# Git and environment files
+.git
+.gitignore
+.env
+.env.local
+
+# Editor settings
+.vscode
+.idea
+*.swp
+
+# Test and coverage
+coverage
+__tests__
+*.test.*
+*.spec.*
+
+# Misc
+*.md
+*.bak
+*.tmp

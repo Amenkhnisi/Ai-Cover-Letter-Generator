@@ -1,0 +1,37 @@
+services:
+  backend:
+    build:
+      context: ./backend
+      dockerfile: Dockerfile # assumes Dockerfile is named 'Dockerfile'
+    container_name: ai-resume-backend
+    ports:
+      - "8000:8000"
+    env_file:
+      - ./backend/.env
+    networks:
+      - resume_net
+    volumes:
+      - ./backend:/app
+    command: uvicorn app.main:app --host 0.0.0.0 --port 8000 --reload
+
+  frontend:
+    build:
+      context: ./frontend
+      dockerfile: Dockerfile.dev
+    container_name: ai-resume-frontend
+    ports:
+      - "5173:5173"
+    env_file:
+      - ./frontend/.env.local
+    networks:
+      - resume_net
+    volumes:
+      - ./frontend:/app:cached
+      - /app/node_modules
+    command: pnpm dev
+    depends_on:
+      - backend
+
+networks:
+  resume_net:
+    driver: bridge
