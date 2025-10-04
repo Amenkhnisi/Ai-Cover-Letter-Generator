@@ -23,7 +23,7 @@ jobs:
         with:
           version: 8
 
-      - name: Set up Node.js
+      - name: Set up Node.js with pnpm cache
         uses: actions/setup-node@v3
         with:
           node-version: 22
@@ -31,9 +31,11 @@ jobs:
           cache-dependency-path: ./frontend/pnpm-lock.yaml
 
       - name: Install dependencies
+        working-directory: ./frontend
         run: pnpm install --frozen-lockfile
 
       - name: Build frontend
+        working-directory: ./frontend
         run: pnpm build
 
   # Docker build and push only if tests pass
