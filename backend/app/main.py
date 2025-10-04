@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from .security import IPBlockMiddleware
+# from .security import IPBlockMiddleware
 from .routers import generate, parse
 from dotenv import load_dotenv
 import os
@@ -40,7 +40,7 @@ async def custom_rate_limit_handler(request: Request, exc: RateLimitExceeded):
         headers={"Retry-After": str(getattr(exc, 'retry_after', 60))}
     )
 
-origins = (os.getenv("ALLOWED_ORIGINS") or "http://localhost:5173").split(",")
+origins = (os.getenv("ALLOWED_ORIGINS")).split(",")
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[o.strip() for o in origins],
@@ -52,7 +52,7 @@ app.add_middleware(
 
 app.include_router(generate.router)
 app.include_router(parse.router)
-app.add_middleware(IPBlockMiddleware, max_failures=10, block_duration=3600)
+# app.add_middleware(IPBlockMiddleware, max_failures=10, block_duration=3600)
 
 
 @app.get("/", tags=["Health"])
