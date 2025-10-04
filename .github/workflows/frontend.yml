@@ -9,6 +9,9 @@ on:
 jobs:
   build:
     name: Build Vite Frontend
+    defaults:
+      run:
+        working-directory: frontend
     runs-on: ubuntu-latest
 
     steps:
@@ -27,11 +30,9 @@ jobs:
           cache: "pnpm"
 
       - name: Install dependencies
-        working-directory: ./frontend
         run: pnpm install --frozen-lockfile
 
       - name: Build frontend
-        working-directory: ./frontend
         run: pnpm build
 
   # Docker build and push only if tests pass
