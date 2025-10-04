@@ -9,6 +9,8 @@ on:
 jobs:
   test:
     runs-on: ubuntu-latest
+    env:
+      X_API_KEY: ${{ secrets.X_API_KEY }}
     defaults:
       run:
         working-directory: backend
