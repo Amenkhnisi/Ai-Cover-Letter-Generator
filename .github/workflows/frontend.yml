@@ -28,14 +28,13 @@ jobs:
         with:
           node-version: 22
           cache: "pnpm"
-          cache-dependency-path: ./frontend/pnpm-lock.yaml
 
       - name: Install dependencies
-        working-directory: ./frontend
+        working-directory: frontend
         run: pnpm install --frozen-lockfile
 
       - name: Build frontend
-        working-directory: ./frontend
+        working-directory: frontend
         run: pnpm build
 
   # Docker build and push only if tests pass
