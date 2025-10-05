@@ -35,16 +35,22 @@ export default function JobDescriptionForm() {
     try {
       const data = await generateAll({
         resume_text: resumeText,
-        job_description: jd, tone_hint: tone
+        job_description: jd,
+        tone_hint: tone,
       });
+
       setCover(data.cover_letter);
       setBullets(convertToBullets(data.bullets));
-    } catch (e: any) {
-      setError(e.response?.data?.error || "Generating failed");
-      throw new Error(e.response?.data?.error || "Generating failed");
+    } catch (e) {
+      const errorMessage =
+        e instanceof Error ? e.message : "Generating failed";
+
+      setError(errorMessage);
+      console.error("Generation error:", errorMessage);
     } finally {
       setLoading(false);
     }
+
   }
   return (
     <div className="grid md:grid-cols-2 gap-6">

@@ -5,8 +5,8 @@ export async function generateAll(body: {
   resume_text: string;
   job_description: string;
   tone_hint?: string;
-}) {
-  const res = await fetch(`${API_BASE}/generate/all`, {
+}): Promise<{ cover_letter: string; bullets: string }> {
+  const response = await fetch(`${API_BASE}/generate/all`, {
     method: "POST",
     headers: {
       "Content-Type": "application/json",
@@ -14,10 +14,18 @@ export async function generateAll(body: {
     },
     body: JSON.stringify(body),
   });
-  if (!res.ok) {
-    const t = await res.text();
-    7;
-    throw new Error(t || "Request failed");
+
+  if (!response.ok) {
+    let errorMessage = "Request failed";
+    try {
+      const errorData = await response.json();
+      errorMessage = errorData.detail || errorMessage;
+    } catch {
+      const fallbackText = await response.text();
+      if (fallbackText) errorMessage = fallbackText;
+    }
+    throw new Error(errorMessage);
   }
-  return res.json() as Promise<{ cover_letter: string; bullets: string }>;
+
+  return response.json();
 }
