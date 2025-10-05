@@ -85,8 +85,8 @@ async def generate_with_timeout(func, *args, timeout=REQUEST_TIMEOUT, **kwargs):
     response_model=GenerateResponse,
     dependencies=[Depends(verify_api_key)]
 )
-@limiter.limit("5/minute")  # 5 requests per minute per IP
-@limiter.limit("10/hour")   # 10 requests per hour per IP
+@limiter.limit("50/minute")  # 5 requests per minute per IP
+@limiter.limit("100/hour")   # 10 requests per hour per IP
 async def generate_all(
     request: Request,
     req: GenerateRequest,
