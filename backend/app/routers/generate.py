@@ -39,7 +39,7 @@ logger = logging.getLogger(__name__)
 SAFE_MIN = 200
 MAX_RESUME_LENGTH = 1000
 MAX_JD_LENGTH = 500
-REQUEST_TIMEOUT = 60  # seconds
+REQUEST_TIMEOUT = 30  # seconds
 
 
 # Cached client - reuse across requests
@@ -85,8 +85,8 @@ async def generate_with_timeout(func, *args, timeout=REQUEST_TIMEOUT, **kwargs):
     response_model=GenerateResponse,
     dependencies=[Depends(verify_api_key)]
 )
-@limiter.limit("100/minute")  # 1 requests per minute per IP
-@limiter.limit("100/hour")   # 10 requests per hour per IP
+@limiter.limit("5/minute")  # 5 requests per minute per IP
+@limiter.limit("10/hour")   # 10 requests per hour per IP
 async def generate_all(
     request: Request,
     req: GenerateRequest,
@@ -96,7 +96,7 @@ async def generate_all(
     Generate cover letter and resume bullets with rate limiting and timeout protection.
 
     Rate limits:
-    - 10 requests per minute
+    - 5 requests per minute
     - 10 requests per hour
     - Per IP address or API key
     """

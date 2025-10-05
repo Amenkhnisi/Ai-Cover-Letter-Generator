@@ -6,14 +6,14 @@ from fastapi.responses import JSONResponse
 from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-# from .security import IPBlockMiddleware
+from .security import IPBlockMiddleware
 from .routers import generate, parse
 from dotenv import load_dotenv
 import os
 
 load_dotenv()
 
-app = FastAPI(title="AI Resume + Cover Letter Generator API")
+app = FastAPI(title="AI Resume bullets + Cover Letter Generator API")
 
 
 # Initialize limiter
@@ -43,7 +43,7 @@ async def custom_rate_limit_handler(request: Request, exc: RateLimitExceeded):
 origins = (os.getenv("ALLOWED_ORIGINS"))
 app.add_middleware(
     CORSMiddleware,
-    allow_origins=[o.strip() for o in origins],
+    allow_origins=origins,
     allow_credentials=True,
     allow_methods=["*"],
     allow_headers=["*"],
@@ -52,7 +52,7 @@ app.add_middleware(
 
 app.include_router(generate.router)
 app.include_router(parse.router)
-# app.add_middleware(IPBlockMiddleware, max_failures=10, block_duration=3600)
+app.add_middleware(IPBlockMiddleware, max_failures=10, block_duration=3600)
 
 
 @app.get("/", tags=["Health"])
