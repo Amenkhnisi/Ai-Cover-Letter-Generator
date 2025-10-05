@@ -40,7 +40,7 @@ async def custom_rate_limit_handler(request: Request, exc: RateLimitExceeded):
         headers={"Retry-After": str(getattr(exc, 'retry_after', 60))}
     )
 
-origins = (os.getenv("ALLOWED_ORIGINS")).split(",")
+origins = (os.getenv("ALLOWED_ORIGINS"))
 app.add_middleware(
     CORSMiddleware,
     allow_origins=[o.strip() for o in origins],
