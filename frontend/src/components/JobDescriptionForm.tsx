@@ -40,7 +40,8 @@ export default function JobDescriptionForm() {
       setCover(data.cover_letter);
       setBullets(convertToBullets(data.bullets));
     } catch (e: any) {
-      setError(e.message.detail);
+      setError(e.response?.data?.error || "Generating failed");
+      throw new Error(e.response?.data?.error || "Generating failed");
     } finally {
       setLoading(false);
     }

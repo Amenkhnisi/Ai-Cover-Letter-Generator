@@ -6,7 +6,7 @@ from fastapi.responses import JSONResponse
 from fastapi import FastAPI, Request, Depends
 from fastapi.middleware.cors import CORSMiddleware
 
-from .security import IPBlockMiddleware
+# from .security import IPBlockMiddleware
 from .routers import generate, parse
 from dotenv import load_dotenv
 import os
@@ -18,7 +18,7 @@ app = FastAPI(title="AI Resume + Cover Letter Generator API")
 
 # Initialize limiter
 limiter = Limiter(key_func=get_remote_address,
-                  default_limits=["200/day", "50/hour"])
+                  default_limits=["100/day", "50/hour"])
 
 
 # Add SlowAPI middleware
@@ -52,7 +52,7 @@ app.add_middleware(
 
 app.include_router(generate.router)
 app.include_router(parse.router)
-app.add_middleware(IPBlockMiddleware, max_failures=10, block_duration=3600)
+# app.add_middleware(IPBlockMiddleware, max_failures=10, block_duration=3600)
 
 
 @app.get("/", tags=["Health"])
